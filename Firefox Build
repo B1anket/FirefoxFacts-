@@ -1,0 +1,3 @@
+// Get the source.
+// Get the latest source code from Mozilla's Mercurial code repository. This may take a while; it's a lot of code.
+hg clone https://hg.mozilla.org/mozilla-central
