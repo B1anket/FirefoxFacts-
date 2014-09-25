@@ -1,3 +1,7 @@
 // Get the source.
 // Get the latest source code from Mozilla's Mercurial code repository. This may take a while; it's a lot of code.
 hg clone https://hg.mozilla.org/mozilla-central
+// If you are using a slow or unreliable internet connection, "hg clone" might fail because it gets interrupted.  In that case, you are strongly encouraged to download a Mercurial bundle file instead of waiting for "hg clone".
+
+// Some optional build configurations.
+
