@@ -1,7 +1,55 @@
+// A copy with some edits of the build process
+
+//GET THE SOURCE
 // Get the source.
 // Get the latest source code from Mozilla's Mercurial code repository. This may take a while; it's a lot of code.
 hg clone https://hg.mozilla.org/mozilla-central
 // If you are using a slow or unreliable internet connection, "hg clone" might fail because it gets interrupted.  In that case, you are strongly encouraged to download a Mercurial bundle file instead of waiting for "hg clone".
 
-// Some optional build configurations.
+// SOME OPTIONAL CONFIGURATION OPTIONS
+//By default, the build system creates a release build of Firefox roughly equivalent to the official Firefox release builds. If that's not exactly what you want, there are many build configuration options to choose from, although it's strongly recommended that you only use options that you fully understand.
+
+//The normal way to specify build options is to place them in a file named mozconfig at the root of your mozilla source tree (that is, directly under the mozilla-central directory created by the hg clone command). On Windows, you can create the file from the MozillaBuild command-line:
+cd /path/to/mozilla-central
+touch mozconfig1
+
+//For example, if you're planning on hacking the C/C++ code, you probably want to create a debug build instead of a release build, by adding the following lines to mozconfig:
+ac_add_options --enable-debug
+ac_add_options --disable-optimize
+
+//BUILDING
+//To start the build, cd into the mozilla-central subdirectory (created automatically by the hg clone command), and run:
+./mach build
+
+//mach is the command-line tool to streamline common developer tasks. 
+//The first time you run "./mach build", mach will ask you if you'd like to create a ".mozbuild" directory your home folder and wait 20 seconds for your answer. This a good default setting, and you should allow it to finish.
+//Building can take a significant amount of time, depending on your system, OS and chosen build options. Linux builds on a fast box may take under 15 minutes, but Windows builds on a slow box may take several hours.
+
+//RUNNING
+//Various temporary files, libraries, and the Firefox executable will be found in your object directory (under mozilla-central/), which is prefixed with obj-. The exact name depends on your system and OS. For example, a Mac user may get an object directory name of obj-x86_64-apple-darwin10.7.3/.
+
+//To run the newly created Firefox instance, use the mach command:
+./mach run
+
+//The Firefox executable and its dependencies are located under the dist/bin folder under the object directory. In particular, Firefox is (depending on the OS) at
+//•Windows: obj-.../dist/bin/firefox.exe
+//•Linux: obj-.../dist/bin/firefox
+//•OS X: obj-.../dist/Nightly.app/Contents/MacOS/firefox
+
+//REBUILDING
+//To build after making changes, run
+./mach build1
+
+
+//again. This will only rebuild what is necessary for these changes. It is also possible to use
+./mach build path/to/dir1 
+//to build parts of the tree. However, this approach may or may not yield correct results, so it is not recommended.
+
+//HOW TO UPDATE
+
+//To pull the latest changes and update the code in your mozilla-central working directory, run the command:
+hg pull -u1
+
+
+//and run ./mach build. Due to the high rate of changes to Firefox, this may take quite a long time.
 
